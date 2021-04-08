@@ -71,7 +71,7 @@ cd /opt/Aldebaran/naoqi-sdk-2.5.5.5-linux64
 *Tmux new window*
 ``` tmux new-window ```
 
-*Tmux split window"
+*Tmux split window*
 ```tmux split-window```
 
 
