@@ -19,10 +19,8 @@ git clone https://bitbucket.org/iocchi/hri_software.git
 
 2. Download files
 
-[NaoQi](https://drive.google.com/file/d/11BKWwQe1uLxf3aVoEP1xJsgcUfIX-bYY)
-
-[Ctc](https://drive.google.com/file/d/1D9oXwiA1vYKGFO7qh81vVsRO189AGZvd)
-
+[NaoQi](https://drive.google.com/file/d/11BKWwQe1uLxf3aVoEP1xJsgcUfIX-bYY), 
+[Ctc](https://drive.google.com/file/d/1D9oXwiA1vYKGFO7qh81vVsRO189AGZvd),
 [PyNaoQi](https://drive.google.com/file/d/18uqf8iAfqnzRZHS206oSAWFYhCgoZ11p)
 
 place them in ```docker/downloads``` folder.
