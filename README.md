@@ -62,6 +62,18 @@ cd /opt/Aldebaran/naoqi-sdk-2.5.5.5-linux64
 ./naoqi
 ```
 
+9. Install Android Studio and Pepper SDK
+
+```
+https://qisdk.softbankrobotics.com/sdk/doc/pepper-sdk/index.html 
+```
+
+10. If the emulator does not work
+
+```
+https://developer.softbankrobotics.com/blog/ubuntu-18-and-pepper-qisdk-emulator-troubleshooting
+```
+
 ## Commands in tmux
 
 *Tmux kill session*
@@ -76,12 +88,4 @@ cd /opt/Aldebaran/naoqi-sdk-2.5.5.5-linux64
 
 
 **After the first installation, just do ./run.bash to start the container with the image**
-
-9. Install Android Studio and Pepper SDK
-
-https://qisdk.softbankrobotics.com/sdk/doc/pepper-sdk/index.html 
-
-10. If the emulator does not work
-
-https://developer.softbankrobotics.com/blog/ubuntu-18-and-pepper-qisdk-emulator-troubleshooting
 
