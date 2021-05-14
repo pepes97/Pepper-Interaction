@@ -67,7 +67,6 @@ ENV MODIM_HOME /home/robot/src/modim
 
 ```
  MODIM_HOME=$HOME/src/modim
- 
 ```
 
 and in row 47 of the same file add
