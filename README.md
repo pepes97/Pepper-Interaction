@@ -1,4 +1,4 @@
-# Pepper-Interaction
+# Pepper Interaction
 
 # Requirements
 
