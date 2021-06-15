@@ -4,7 +4,7 @@
 
 1. Follow the instructions of [pepper instructions](./setup_pepper.md)
 2. Follow the instructions of [emulator instructions](./setup_emulator.md)
-3. Follow the instructions for the [first test](./first_test.md)
+3. Follow the instructions for the [first test](./fist_test.md)
 
 <!--### Install docker
 
