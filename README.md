@@ -1,8 +1,12 @@
 # Pepper-Interaction
 
-## Requirements
+# Requirements
 
-### Install docker
+1. Follow the instructions of [pepper instructions](./setup_pepper.md)
+2. Follow the instructions of [emulator instructions](./setup_emulator.md)
+3. Follow the instructions for the [first test](./first_test.md)
+
+<!--### Install docker
 
 ```
 curl -fsSL get.docker.com -o get-docker.sh
@@ -73,7 +77,7 @@ https://qisdk.softbankrobotics.com/sdk/doc/pepper-sdk/index.html
 ```
 https://developer.softbankrobotics.com/blog/ubuntu-18-and-pepper-qisdk-emulator-troubleshooting
 ```
-
+-->
 ## Commands in tmux
 
 *Tmux kill session*
