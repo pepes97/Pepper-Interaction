@@ -1,0 +1,11 @@
+IMAGE
+<*,*,*,*>:  img/diaglogo.jpg
+----
+TEXT
+<*,*,it,*>: A me piacciono le mele rosse
+<*,*,*,*>:  I like red apples
+----
+TTS
+<*,*,it,*>: A me piacciono le mele rosse
+<*,*,*,*>:  I like red apples
+----
