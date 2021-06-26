@@ -23,7 +23,7 @@ def i1():
         im.setProfile(['*','*','it','*'])
 
     im.execute('welcome')
-    a0 = im.ask('welcome', timeout=999)
+    #a0 = im.ask('welcome', timeout=999)
     q = 'interaction'
     a = im.ask(q)
 
