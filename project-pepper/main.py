@@ -4,6 +4,7 @@ import qi
 import sys
 from cd import *
 from motion import *
+from sonar import *
 
 
 tablet = "./tablet/"
@@ -13,6 +14,9 @@ scripts = "scripts"
 def handleLastAnswer(lastAnswer):
     if "tablet" in lastAnswer:
         lauch_application(tablet)
+    elif "Bye" in lastAnswer:
+        print(lastAnswer,"1")
+
 
 def lauch_application(app):
     with cd(os.path.join(app, scripts)):
@@ -25,8 +29,20 @@ def main(session, topic_path):
     ALMemory = session.service('ALMemory')
     ALMotion = session.service("ALMotion")
 
+    # Sonar
+    sonar = Sonar(ALMemory)
+    sonar.set_sonar()
+
+    # Motion
     motion = Motion(ALMotion)
-    motion.forward()
+    detected = motion.forward(sonar)
+
+    ## Gestures
+    # jointNames = ["LS", "HeadPitch"]
+    # angles = [1.6, -0.2]
+    # times  = [5.0, 5.0]
+    # isAbsolute = True
+    # ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
     # Setup ALDialog
     ALDialog.setLanguage('English')
@@ -51,6 +67,7 @@ def main(session, topic_path):
     while not stop_flag:
         try:
             value = raw_input("Talk to robot (insert stop to finish the conversation): ")
+
         except KeyboardInterrupt:
             stop_flag = True
             # Stop the dialog engine
@@ -59,7 +76,7 @@ def main(session, topic_path):
             ALDialog.deactivateTopic(topic_name)
             ALDialog.unloadTopic(topic_name)   
             return 0
-            
+
         if value =="stop":
             
             stop_flag = True
