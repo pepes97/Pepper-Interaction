@@ -9,6 +9,7 @@ from motion import *
 tablet = "./tablet/"
 scripts = "scripts"
 
+
 def handleLastAnswer(lastAnswer):
     if "tablet" in lastAnswer:
         lauch_application(tablet)
@@ -48,8 +49,17 @@ def main(session, topic_path):
 
     stop_flag = False
     while not stop_flag:
-        value = raw_input("Talk to robot (insert stop to finish the conversation): ")
-        print(value)
+        try:
+            value = raw_input("Talk to robot (insert stop to finish the conversation): ")
+        except KeyboardInterrupt:
+            stop_flag = True
+            # Stop the dialog engine
+            ALDialog.unsubscribe('pepper_assistant')
+            # Deactivate and unload the main topic
+            ALDialog.deactivateTopic(topic_name)
+            ALDialog.unloadTopic(topic_name)   
+            return 0
+            
         if value =="stop":
             
             stop_flag = True
