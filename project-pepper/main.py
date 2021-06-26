@@ -3,35 +3,45 @@ import os
 import qi
 import sys
 from cd import *
+from motion import *
 
-topicContent = ("topic: ~example-assistant()\n"
-                "language: enu\n"
-                "concept: (myname) [My name is I'm ]\n"
-                "proposal: %question Do you want to interact with me?\n"
-                    "u1: (yes) Ok, Let's start with my tablet\n"
-                    "u2: (no) Ok, What do you want to do?\n"
-                "proposal: %name What's your name?\n"
-                    "u1: (~myname _*) Nice to meet you $1 ^goto(question)\n"
-                "u:([hi hello]) Hi, I'm MARIO ^goto(name)\n")
 
 tablet = "./tablet/"
 scripts = "scripts"
+
+def handleLastAnswer(lastAnswer):
+    if "tablet" in lastAnswer:
+        lauch_application(tablet)
 
 def lauch_application(app):
     with cd(os.path.join(app, scripts)):
         os.system("python demo.py")
     return
 
-def main(session):
+def main(session, topic_path):
     # Get ALDialog service
     ALDialog = session.service('ALDialog')
+    ALMemory = session.service('ALMemory')
+    ALMotion = session.service("ALMotion")
+
+    motion = Motion(ALMotion)
+    motion.forward()
 
     # Setup ALDialog
     ALDialog.setLanguage('English')
-    topic_name = ALDialog.loadTopicContent(topicContent)
+    
+    topic_path += "/main.top"
+
+    # Loading the topic given by the user (absolute path is required)
+    topf_path = topic_path.decode('utf-8')
+    topic_name = ALDialog.loadTopic(topf_path.encode('utf-8'))
 
     # Activate loaded topic
     ALDialog.activateTopic(topic_name)
+
+    # Black magic
+    lastAnswer = ALMemory.subscriber("Dialog/LastAnswer")
+    lastAnswer.signal.connect(handleLastAnswer)
 
     # Start dialog
     ALDialog.subscribe('pepper_assistant')
@@ -48,8 +58,6 @@ def main(session):
             # Deactivate and unload the main topic
             ALDialog.deactivateTopic(topic_name)
             ALDialog.unloadTopic(topic_name)    
-        elif "tablet" in value:
-            lauch_application(tablet)
 
     return 0
 
@@ -60,6 +68,9 @@ if __name__ == "__main__":
                         help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
     parser.add_argument("--port", type=int, default=9559,
                         help="port number, the default value is OK in most cases")
+    parser.add_argument("--topic-path", type=str, required=True,
+                        help="absolute path of the dialog topic folder")
+
 
     args = parser.parse_args()
     session = qi.Session()
@@ -71,4 +82,4 @@ if __name__ == "__main__":
                " Run with -h option for help.\n".format(args.ip, args.port))
         sys.exit(1)
     
-    main(session)
+    main(session, args.topic_path)

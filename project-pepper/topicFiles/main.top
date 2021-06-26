@@ -1,0 +1,13 @@
+topic: ~example-assistant()
+language: enu
+
+concept: (myname) ["My name is" "I'm" ]
+
+proposal: %question Do you want to interact with me?
+	u1: (yes) Ok, Let's start with my tablet
+	u1: (no) Ok, Bye Bye
+
+proposal: %name What's your name?
+	u1: ({~myname} _*) Nice to meet you $1 ^goto(question)
+
+u:(["hi" "hello"]) Hi, I'm MARIO ^goto(name)
