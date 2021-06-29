@@ -1,11 +1,11 @@
 import argparse
+from gestures import Gesture
 import os
 import qi
 import sys
 from cd import *
 from motion import *
 from sonar import *
-
 
 tablet = "./tablet/"
 scripts = "scripts"
@@ -23,11 +23,16 @@ def lauch_application(app):
         os.system("python demo.py")
     return
 
+
 def main(session, topic_path):
+
     # Get ALDialog service
     ALDialog = session.service('ALDialog')
     ALMemory = session.service('ALMemory')
     ALMotion = session.service("ALMotion")
+    tts_service = session.service("ALTextToSpeech")
+
+    robot_position = (0,0)
 
     # Sonar
     sonar = Sonar(ALMemory)
@@ -35,14 +40,21 @@ def main(session, topic_path):
 
     # Motion
     motion = Motion(ALMotion)
-    detected = motion.forward(sonar)
+    #min_distance = motion.selectMinDistance(humans_positions) -> prendo la distanza minima tra quelle nel sonar (per il momento solo humans frontali)
+    #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
+    #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
+    #motion.forward(min_distance, sonar)
 
-    ## Gestures
-    # jointNames = ["LS", "HeadPitch"]
-    # angles = [1.6, -0.2]
-    # times  = [5.0, 5.0]
-    # isAbsolute = True
-    # ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+    # Gestures
+    gesture = Gesture(ALMotion)
+
+    tts_service.setLanguage("English")
+    tts_service.setVolume(1.0)
+    tts_service.setParameter("speed", 1.0)
+    tts_service.say("Hi! I'm MARIO."+" "*5)
+    gesture.doHello()
+    
 
     # Setup ALDialog
     ALDialog.setLanguage('English')
