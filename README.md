@@ -56,7 +56,3 @@ docker exec -it pepperhri tmux
 
 *Tmux split window*
 ```tmux split-window```
-
-
-**After the first installation, just do ./run.bash to start the container with the image**
-
