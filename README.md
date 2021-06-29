@@ -6,79 +6,46 @@
 2. Follow the instructions of [emulator instructions](./setup_emulator.md)
 3. Follow the instructions for the [first test](./fist_test.md)
 
-<!--### Install docker
+# Launch the project after the requirements (requirements only need to be done once)
+
+1. Start Android Studio, run the studio file in the `android-studio-ide/bin/` folder:
 
 ```
-curl -fsSL get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-rm get-docker.sh
-sudo usermod -aG docker $USER
+./studio.sh 
 ```
 
-1. Clone
+and then the emulator (`Tools-> Pepper SDK-> Emulator`)
 
-```
-git clone https://bitbucket.org/iocchi/hri_software.git
-```
+2. Go to 
 
-2. Download files
-
-[NaoQi](https://drive.google.com/file/d/11BKWwQe1uLxf3aVoEP1xJsgcUfIX-bYY), 
-[Ctc](https://drive.google.com/file/d/1D9oXwiA1vYKGFO7qh81vVsRO189AGZvd),
-[PyNaoQi](https://drive.google.com/file/d/18uqf8iAfqnzRZHS206oSAWFYhCgoZ11p)
-
-place them in ```docker/downloads``` folder.
-
-3. Download pepper tools
-
-```
-mkdir -p $HOME/src/Pepper
-cd $HOME/src/Pepper
-git clone https://bitbucket.org/mtlazaro/pepper_tools.git
-```
-4. Create a folder ```$HOME/playground``` that will be shared with the docker container.
-
-```
-mkdir -p $HOME/playground
-```
-
-5. Go to ```hri_software/docker``` and build image
-
-```
-./build.bash
-```
-6. Run image
-
+`path_to/hri_software/docker` and execute:
 ```
 ./run.bash
 ```
 
-7. Docker exec with ``tmux``
+to start the docker image
+
+3. Open terminal and run:
 
 ```
 docker exec -it pepperhri tmux
 ```
 
-8. Run NaoQi 
+4. Split windows using command `tmux split-window` and:
+  + 4.1 In one terminale go to `$HOME/src/modim/src/GUI` and run 
+    ```
+    python ws_server.py
+    ```
+   
+   + 4.2 Open the `$HOME/playground/Pepper-Interaction/project-pepper/tablet/index.html` file on the browser and keep the Robot, Dialog View and terminal windows open
+   
+   + 4.3 In the open terminal go to `/playground/Pepper-Interaction/project-pepper` and
+     ```
+     python main.py
+     ```
+      with python (not python3)
 
-``` 
-cd /opt/Aldebaran/naoqi-sdk-2.5.5.5-linux64
-./naoqi
-```
-
-9. Install Android Studio and Pepper SDK
-
-```
-https://qisdk.softbankrobotics.com/sdk/doc/pepper-sdk/index.html 
-```
-
-10. If the emulator does not work
-
-```
-https://developer.softbankrobotics.com/blog/ubuntu-18-and-pepper-qisdk-emulator-troubleshooting
-```
--->
-## Commands in tmux
+# Commands in tmux
 
 *Tmux kill session*
 
