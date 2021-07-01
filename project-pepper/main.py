@@ -8,15 +8,24 @@ from motion import *
 from sonar import *
 
 tablet = "./tablet/"
-scripts = "scripts"
+scripts = "scripts/"
 
+global session
 
 def handleLastAnswer(lastAnswer):
-    if "tablet" in lastAnswer:
+    if "start" in lastAnswer:
         lauch_application(tablet)
     elif "Bye" in lastAnswer:
         print(lastAnswer,"1")
 
+def handleLastInput(lastInput):
+    audio_player_service = session.service("ALAudioPlayer")
+
+    if "classical" in lastInput:
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/primavera.wav", _async=True)
+    if "stop" in lastInput:
+        audio_player_service.stop(1)
+        
 
 def lauch_application(app):
     with cd(os.path.join(app, scripts)):
@@ -52,8 +61,8 @@ def main(session, topic_path):
     tts_service.setLanguage("English")
     tts_service.setVolume(1.0)
     tts_service.setParameter("speed", 1.0)
-    tts_service.say("Hi! I'm MARIO."+" "*5)
-    gesture.doHello()
+    tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5)
+    #gesture.doHello()
     
 
     # Setup ALDialog
@@ -71,6 +80,10 @@ def main(session, topic_path):
     # Black magic
     lastAnswer = ALMemory.subscriber("Dialog/LastAnswer")
     lastAnswer.signal.connect(handleLastAnswer)
+
+    # Black magic 2
+    lastInput = ALMemory.subscriber("Dialog/LastInput")
+    lastInput.signal.connect(handleLastInput)
 
     # Start dialog
     ALDialog.subscribe('pepper_assistant')

@@ -1,0 +1,21 @@
+IMAGE
+<*, *, *, *>:  img/nmg.png
+----
+TEXT
+<*,*,it,*>: Quale genere musicale preferisci ascoltare?
+<*,*,*,*>: What kind of music do you want to listen?
+----
+BUTTONS
+classical
+<*,*,it,*>: Musica Classica
+<*,*,*,*>:  Classical Music
+pop
+<*,*,it,*>: Musica Pop
+<*,*,*,*>:  Pop Music
+rock
+<*,*,it,*>: Musica Rock
+<*,*,*,*>:  Rock Music
+jazz
+<*,*,it,*>: Musica Jazz
+<*,*,*,*>:  Jazz Music
+----

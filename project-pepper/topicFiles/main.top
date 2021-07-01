@@ -3,9 +3,19 @@ language: enu
 
 concept: (myname) ["My name is" "I'm" ]
 
-proposal: %question Do you want to interact with me?
+proposal: %question Do you want to use the tablet?
 	u1: (yes) Ok, Let's start with my tablet
-	u1: (no) Ok, Bye Bye
+	u1: (no) Ok, Do you want to do something else?
+		u2: (yes) Do you want to listen some music?
+			u3: (yes) Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+				u4: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+					u5: (stop) Do you want to conversate?
+						u7: (no) Ok, bye bye.
+			u3: (no) ^goto(conversate)
+		u2: (no) Ok, bye bye.
+
+proposal: %conversate Do you want to conversate?
+	u1: (no) Ok, bye bye.
 
 proposal: %name What's your name?
 	u1: ({~myname} _*) Nice to meet you $1 ^goto(question)
