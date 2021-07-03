@@ -6,25 +6,56 @@ import sys
 from cd import *
 from motion import *
 from sonar import *
+import random
 
 tablet = "./tablet/"
 scripts = "scripts/"
 
 global session
+global index
+index = 1
+
+global ALDialog
+global topic_name
+global topic_path
+
 
 def handleLastAnswer(lastAnswer):
     if "start" in lastAnswer:
         lauch_application(tablet)
-    elif "Bye" in lastAnswer:
+    elif "bye" in lastAnswer:
         print(lastAnswer,"1")
 
+
 def handleLastInput(lastInput):
+    global audio_player_service
+    global already_tried
+    global index
+
     audio_player_service = session.service("ALAudioPlayer")
+    selected_index = str(random.choice([1,2,3]))
 
     if "classical" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/primavera.wav", _async=True)
-    if "stop" in lastInput:
-        audio_player_service.stop(1)
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        #gesture.doHello()
+    
+    elif "pop" in lastInput:
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+    
+    elif "rock" in lastInput:
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+
+    elif "jazz" in lastInput:
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+
+    
+
+    elif "stop" in lastInput:
+        audio_player_service.stop(index)
+        index += 1
+
+
+
         
 
 def lauch_application(app):
@@ -33,14 +64,11 @@ def lauch_application(app):
     return
 
 
-def main(session, topic_path):
+def main(session):
+    stop_flag = False
 
     # Get ALDialog service
-    ALDialog = session.service('ALDialog')
-    ALMemory = session.service('ALMemory')
-    ALMotion = session.service("ALMotion")
-    tts_service = session.service("ALTextToSpeech")
-
+    
     robot_position = (0,0)
 
     # Sonar
@@ -53,10 +81,8 @@ def main(session, topic_path):
     #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
     #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
     #motion.forward(min_distance, sonar)
+    motion.forward(sonar, 1.5)
 
-
-    # Gestures
-    gesture = Gesture(ALMotion)
 
     tts_service.setLanguage("English")
     tts_service.setVolume(1.0)
@@ -64,18 +90,8 @@ def main(session, topic_path):
     tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5)
     #gesture.doHello()
     
-
-    # Setup ALDialog
-    ALDialog.setLanguage('English')
-    
-    topic_path += "/main.top"
-
-    # Loading the topic given by the user (absolute path is required)
-    topf_path = topic_path.decode('utf-8')
-    topic_name = ALDialog.loadTopic(topf_path.encode('utf-8'))
-
-    # Activate loaded topic
     ALDialog.activateTopic(topic_name)
+    ALDialog.subscribe('pepper_assistant')
 
     # Black magic
     lastAnswer = ALMemory.subscriber("Dialog/LastAnswer")
@@ -85,21 +101,20 @@ def main(session, topic_path):
     lastInput = ALMemory.subscriber("Dialog/LastInput")
     lastInput.signal.connect(handleLastInput)
 
-    # Start dialog
-    ALDialog.subscribe('pepper_assistant')
-
-    stop_flag = False
+    
     while not stop_flag:
         try:
             value = raw_input("Talk to robot (insert stop to finish the conversation): ")
 
         except KeyboardInterrupt:
+
             stop_flag = True
             # Stop the dialog engine
             ALDialog.unsubscribe('pepper_assistant')
             # Deactivate and unload the main topic
             ALDialog.deactivateTopic(topic_name)
             ALDialog.unloadTopic(topic_name)   
+            
             return 0
 
         if value =="stop":
@@ -109,9 +124,8 @@ def main(session, topic_path):
             ALDialog.unsubscribe('pepper_assistant')
             # Deactivate and unload the main topic
             ALDialog.deactivateTopic(topic_name)
-            ALDialog.unloadTopic(topic_name)    
-
-    return 0
+            ALDialog.unloadTopic(topic_name)           
+    
 
 
 if __name__ == "__main__":
@@ -133,5 +147,30 @@ if __name__ == "__main__":
         print ("\nCan't connect to Naoqi at IP {} (port {}).\nPlease check your script's arguments."
                " Run with -h option for help.\n".format(args.ip, args.port))
         sys.exit(1)
+
+    ALDialog = session.service('ALDialog')
+    ALMemory = session.service('ALMemory')
+    ALMotion = session.service("ALMotion")
+    tts_service = session.service("ALTextToSpeech")
+
+    # Setup ALDialog
+    ALDialog.setLanguage('English')
     
-    main(session, args.topic_path)
+    topic_path = args.topic_path
+    topic_path += "/main.top"
+
+    # Loading the topic given by the user (absolute path is required)
+    topf_path = topic_path.decode('utf-8')
+    topic_name = ALDialog.loadTopic(topf_path.encode('utf-8'))
+
+    # Activate loaded topic
+    ALDialog.activateTopic(topic_name)
+
+    # Start dialog
+    ALDialog.subscribe('pepper_assistant')
+
+    # Gestures
+    gesture = Gesture(ALMotion)
+
+
+    main(session)

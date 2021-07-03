@@ -7,12 +7,41 @@ proposal: %question Do you want to use the tablet?
 	u1: (yes) Ok, Let's start with my tablet
 	u1: (no) Ok, Do you want to do something else?
 		u2: (yes) Do you want to listen some music?
-			u3: (yes) Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
-				u4: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
-					u5: (stop) Do you want to conversate?
-						u7: (no) Ok, bye bye.
-			u3: (no) ^goto(conversate)
+			u3: (yes) ^goto(music1)
+			u3: (no) Ok, bye bye.
 		u2: (no) Ok, bye bye.
+
+
+proposal: %music1 Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+	u1: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+		u2: (stop) Ok, Do you want listen something else?
+			u3: (yes) ^goto(music2)
+			u3: (no) Ok, bye bye.
+
+proposal: %music2 Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+	u1: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+		u2: (stop) Ok, Do you want listen something else?
+			u3: (yes) ^goto(music3)
+			u3: (no) Ok, bye bye.
+
+proposal: %music3 Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+	u1: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+		u2: (stop) Ok, Do you want listen something else?
+			u3: (yes) ^goto(music4)
+			u3: (no) Ok, bye bye.
+
+proposal: %music4 Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+	u1: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+		u2: (stop) Ok, Do you want listen something else?
+			u3: (yes) ^goto(music5)
+			u3: (no) Ok, bye bye.
+
+proposal: %music5 Which kind of music do you want to listen? Classical, Pop, Rock or Jazz?
+	u1: (["classical" "pop" "rock" "jazz"]) Ok, I play it. Tell me "stop" when you want to stop this song.
+		u2: (stop) Ok, Do you want listen something else?
+			u3: (yes) ^goto(music5)
+			u3: (no) Ok, bye bye.
+
 
 proposal: %conversate Do you want to conversate?
 	u1: (no) Ok, bye bye.
