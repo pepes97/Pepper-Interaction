@@ -58,9 +58,6 @@ def handleLastInput(lastInput):
         index += 1
 
 
-
-        
-
 def lauch_application(app):
     with cd(os.path.join(app, scripts)):
         os.system("python demo.py")
@@ -131,7 +128,7 @@ def main(session):
             # Deactivate and unload the main topic
             ALDialog.deactivateTopic(topic_name)
             ALDialog.unloadTopic(topic_name)           
-    
+    return 0
 
 
 if __name__ == "__main__":

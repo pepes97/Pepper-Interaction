@@ -5,14 +5,18 @@ TEXT
 <*,*,it,*>: Cosa ti piacerebbe fare?
 <*,*,*,*>: What would you like to do?
 ----
+TTS
+<*,*,it,*>: Cosa ti piacerebbe fare?
+<*,*,*,*>: What would you like to do?
+----
 BUTTONS
 news
 <*,*,it,*>: Leggere le notizie
 <*,*,*,*>:  Read the news
-music
-<*,*,it,*>: Ascoltare la musica
-<*,*,*,*>:  Listen to music
-game
-<*,*,it,*>: Giocare ad un gioco
-<*,*,*,*>:  Play a game
+meteo
+<*,*,it,*>: Previsioni meteo di oggi
+<*,*,*,*>:  Forecast of today
+exit
+<*,*,it,*>: Indietro
+<*,*,*,*>:  Exit
 ----

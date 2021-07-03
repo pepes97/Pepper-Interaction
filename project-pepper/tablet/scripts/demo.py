@@ -2,10 +2,6 @@ import sys
 import time
 import os
 import random
-import qi
-
-sys.path.insert(1, '/home/robot/playground/Pepper-Interaction/project-pepper')
-import main
 
 try:
     sys.path.insert(0, os.getenv('MODIM_HOME')+'/src/GUI')
@@ -33,39 +29,17 @@ def i1():
     #a0 = im.ask('welcome', timeout=999)
     q = 'choose-activity'
     a = im.ask(q)
+    while a != "exit":
+        if a == "meteo":
+            q = "choose-" + str(random.choice(["sunny", "cloudy", "snow", "stormy", "foggy", "rainy", "windy"]))
+            a = im.ask(q)
+            if a == "back":
+                a = im.ask("choose-activity")
 
-    if a == "music":
-        while a!="back":
-            a = im.ask("choose-music")
-
-            while a!="stop":
-                if a == "classical":
-                    a = im.ask("classical-music")
-                    
-                    '''try:
-                        ap_service = session.service("ALAudioPlayer")
-                        fileId = ap_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/primavera.wav")
-                    except KeyboardInterrupt:
-                        ap_service.stopAll()
-                        sys.exit(0)'''
-                    ap_service = main.session.service("ALAudioPlayer")
-                    fileId = ap_service.playFile("/home/robot/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/primavera.wav")
-
-            #ap_service.stopAll()
+    im.execute('goodbye')
     
+    im.init()
 
-    if (a!='timeout'):
-        im.execute(a)
-        im.execute('goodbye')
-
-    else:
-        q = "color-warning"
-        a = im.ask(q)
-        if (a!='timeout'):
-            im.execute(a)
-            im.execute('goodbye')
-        else:
-            im.execute('goodbye')
 
 
 
