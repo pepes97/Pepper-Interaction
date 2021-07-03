@@ -93,7 +93,7 @@ def main(session):
     tts_service.setLanguage("English")
     tts_service.setVolume(1.0)
     tts_service.setParameter("speed", 1.0)
-    tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5)
+    tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5, _async=True)
     gesture.doHello()
     
     ALDialog.activateTopic(topic_name)
