@@ -29,16 +29,14 @@ class Motion:
                 return True
         return False
 
-    def chooseHuman(self, robot_position, humans_positions):
-        nearest_human_pos = ()
+    def selectMinDistance(self, distances):
         min_distance = float("inf")
 
-        for pos in humans_positions:
-            distance = math.sqrt((robot_position[0]-pos[0])**2 + (robot_position[1]-pos[1])**2)
-            if distance < min_distance:
-                min_distance = distance
-                nearest_human_pos = pos
+        for dist in distances:
+            if dist < min_distance:
+                min_distance = dist
 
-        return nearest_human_pos
+        return min_distance
+
 
         

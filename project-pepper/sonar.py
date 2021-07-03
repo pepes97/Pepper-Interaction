@@ -2,18 +2,18 @@ import time
 import math
 
 class Sonar:
-    def __init__(self, memory_service, sensor= "SonarFront", duration = 3.0):
+    def __init__(self, memory_service, robot_position, sensor= "SonarFront", duration = 3.0):
         self.memory_service = memory_service
         self.sensor = sensor
         self.duration = duration
         self.sonarValueList = ['Device/SubDeviceList/Platform/Front/Sonar/Sensor/Value',
                                'Device/SubDeviceList/Platform/Back/Sonar/Sensor/Value' ]
-        self.robot_position = (0,0) #deve diventare paremetrico
-
+        self.robot_position = robot_position # tuple (int, int)
+        self.humans_positions = self.get_positions()
         
     def set_sonar(self):
 
-        distances = self.get_distances(self.robot_position)
+        distances = self.get_distances()
 
         mkey = self.sonarValueList[0]
         self.memory_service.insertData(mkey,distances)
@@ -32,12 +32,10 @@ class Sonar:
 
         return humans_positions
 
-    def get_distances(self, robot_position):
+    def get_distances(self):
         distances = []
-
-        humans_positions = self.get_positions()
-        for pos in humans_positions:
-            distance = math.sqrt((robot_position[0]-pos[0])**2 + (robot_position[1]-pos[1])**2)
+        for pos in self.humans_positions:
+            distance = math.sqrt((self.robot_position[0]-pos[0])**2 + (self.robot_position[1]-pos[1])**2)
             distances.append(distance)
 
         return distances

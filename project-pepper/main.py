@@ -36,18 +36,21 @@ def handleLastInput(lastInput):
     selected_index = str(random.choice([1,2,3]))
 
     if "classical" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
-        #gesture.doHello()
+
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        gesture.doClassical()
     
     elif "pop" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
-    
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        gesture.doPop()
+
     elif "rock" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        gesture.doRock()
 
     elif "jazz" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
-
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        gesture.doJazz()
     
 
     elif "stop" in lastInput:
@@ -72,7 +75,7 @@ def main(session):
     robot_position = (0,0)
 
     # Sonar
-    sonar = Sonar(ALMemory)
+    sonar = Sonar(ALMemory, robot_position)
     sonar.set_sonar()
 
     # Motion
@@ -81,14 +84,17 @@ def main(session):
     #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
     #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
     #motion.forward(min_distance, sonar)
-    motion.forward(sonar, 1.5)
-
+    distances = sonar.get_distances()
+    print("Distances: ", distances)
+    min_distance = motion.selectMinDistance(distances)
+    print("Min distance: ", min_distance)
+    motion.forward(sonar, min_distance)
 
     tts_service.setLanguage("English")
     tts_service.setVolume(1.0)
     tts_service.setParameter("speed", 1.0)
     tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5)
-    #gesture.doHello()
+    gesture.doHello()
     
     ALDialog.activateTopic(topic_name)
     ALDialog.subscribe('pepper_assistant')
