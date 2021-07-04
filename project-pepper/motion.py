@@ -31,12 +31,14 @@ class Motion:
 
     def selectMinDistance(self, distances):
         min_distance = float("inf")
+        index = 0
 
-        for dist in distances:
-            if dist < min_distance:
-                min_distance = dist
+        for i in range(len(distances)):
+            if distances[i] < min_distance:
+                min_distance = distances[i]
+                index = i
 
-        return min_distance
+        return min_distance, index
 
 
         

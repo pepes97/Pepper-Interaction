@@ -83,9 +83,12 @@ def main(session):
     #motion.forward(min_distance, sonar)
     distances = sonar.get_distances()
     print("Distances: ", distances)
-    min_distance = motion.selectMinDistance(distances)
+    min_distance, id = motion.selectMinDistance(distances)
     print("Min distance: ", min_distance)
     motion.forward(sonar, min_distance)
+    print("Robot position", sonar.robot_position)
+    sonar.robot_position = sonar.humans_positions[id]
+    print("Robot position", sonar.robot_position)
 
     tts_service.setLanguage("English")
     tts_service.setVolume(1.0)
