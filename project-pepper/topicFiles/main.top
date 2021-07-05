@@ -4,7 +4,11 @@ language: enu
 concept: (myname) ["My name is" "I'm" ]
 
 proposal: %question Do you want to use the tablet?
-	u1: (yes) Ok, Let's start with my tablet
+	u1: (yes) Ok, Let's start with my tablet. Tell me "finish" when you finished with the tablet
+		u2: (finish) Ok, Do you want to do something else?
+			u3: (yes) Do you want to listen some music?
+				u4: (yes) ^goto(music1)
+				u4: (no) Ok, bye bye.
 	u1: (no) Ok, Do you want to do something else?
 		u2: (yes) Do you want to listen some music?
 			u3: (yes) ^goto(music1)

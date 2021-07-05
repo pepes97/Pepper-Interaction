@@ -21,7 +21,6 @@ def i1():
     im.init()
     lan = im.ask('language')
 
-
     if lan == "it":
         im.setProfile(['*','*','it','*'])
 
@@ -35,17 +34,22 @@ def i1():
                 a = im.ask("choose-activity")
 
         elif a == "news":
-            a = im.ask("choose-topic")
-            if a == "politics":
-                a = im.ask("choose-politics")
-            elif a == "sport":
-                a = im.ask("choose-sport")
-            elif a == "health":
-                a = im.ask("choose-health")
-            elif a == "entertainment":
-                a = im.ask("choose-entertainment")
-            elif a == "back":
-                a = im.ask("choose-activity")
+            while a != "back":
+                a = im.ask("choose-topic")
+
+                if a == "politics":
+                    im.ask("choose-politics")
+                elif a == "sport":
+                    im.ask("choose-sport")
+                elif a == "health":
+                    im.ask("choose-health")
+                elif a == "science":
+                    im.ask("choose-science")    
+                elif a == "entertainment":
+                    im.ask("choose-entertainment")
+            
+            a = im.ask("choose-activity")
+
 
     im.execute('goodbye')
     

@@ -1,5 +1,5 @@
 IMAGE
-<*, *, *, *>:  img/news.png
+<*, *, *, *>:  img/topics.jpeg
 ----
 TEXT
 <*,*,it,*>: Cosa ti piacerebbe leggere?
@@ -10,7 +10,7 @@ TTS
 <*,*,*,*>: What would you like to read?
 ----
 BUTTONS
-politic
+politics
 <*,*,it,*>: Politica
 <*,*,*,*>:  Politics
 sport
@@ -20,7 +20,7 @@ health
 <*,*,it,*>: Salute
 <*,*,*,*>:  Health
 science
-<*,*,it,*>: Scienze e Tecnologia
+<*,*,it,*>: Scienza e Tecnologia
 <*,*,*,*>:  Science and Technologies
 entertainment
 <*,*,it,*>: Intrattenimento

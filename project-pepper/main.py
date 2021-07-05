@@ -7,6 +7,7 @@ from cd import *
 from motion import *
 from sonar import *
 import random
+import operator
 
 tablet = "./tablet/"
 scripts = "scripts/"
@@ -18,6 +19,9 @@ index = 1
 global ALDialog
 global topic_name
 global topic_path
+global doGesture
+
+doGesture = True
 
 
 def handleLastAnswer(lastAnswer):
@@ -29,7 +33,7 @@ def handleLastAnswer(lastAnswer):
 
 def handleLastInput(lastInput):
     global audio_player_service
-    global already_tried
+    global doGesture
     global index
 
     audio_player_service = session.service("ALAudioPlayer")
@@ -37,24 +41,29 @@ def handleLastInput(lastInput):
 
     if "classical" in lastInput:
 
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        gesture.doGesture = True
         gesture.doClassical()
     
     elif "pop" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        gesture.doGesture = True
         gesture.doPop()
 
     elif "rock" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        gesture.doGesture = True
         gesture.doRock()
 
     elif "jazz" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        gesture.doGesture = True
         gesture.doJazz()
     
 
     elif "stop" in lastInput:
         audio_player_service.stop(index)
+        gesture.doGesture = False
         index += 1
 
 
@@ -83,11 +92,11 @@ def main(session):
     #motion.forward(min_distance, sonar)
     distances = sonar.get_distances()
     print("Distances: ", distances)
-    min_distance, id = motion.selectMinDistance(distances)
+    min_distance, id = motion.selectMinDistance(distances) #id is the person id
     print("Min distance: ", min_distance)
     motion.forward(sonar, min_distance)
     print("Robot position", sonar.robot_position)
-    sonar.robot_position = sonar.humans_positions[id]
+    sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
     print("Robot position", sonar.robot_position)
 
     tts_service.setLanguage("English")
@@ -95,6 +104,7 @@ def main(session):
     tts_service.setParameter("speed", 1.0)
     tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5, _async=True)
     gesture.doHello()
+    time.sleep(2)
     
     ALDialog.activateTopic(topic_name)
     ALDialog.subscribe('pepper_assistant')
@@ -176,7 +186,7 @@ if __name__ == "__main__":
     ALDialog.subscribe('pepper_assistant')
 
     # Gestures
-    gesture = Gesture(ALMotion)
+    gesture = Gesture(ALMotion, doGesture)
 
 
     main(session)
