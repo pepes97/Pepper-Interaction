@@ -41,22 +41,22 @@ def handleLastInput(lastInput):
 
     if "classical" in lastInput:
 
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doClassical()
     
     elif "pop" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doPop()
 
     elif "rock" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doRock()
 
     elif "jazz" in lastInput:
-        audio_player_service.playFile("/home/sted97/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doJazz()
     
@@ -152,6 +152,7 @@ if __name__ == "__main__":
                         help="port number, the default value is OK in most cases")
     parser.add_argument("--topic-path", type=str, required=True,
                         help="absolute path of the dialog topic folder")
+
 
 
     args = parser.parse_args()

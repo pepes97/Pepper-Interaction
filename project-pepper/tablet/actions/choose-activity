@@ -16,6 +16,9 @@ news
 meteo
 <*,*,it,*>: Previsioni meteo di oggi
 <*,*,*,*>:  Forecast of today
+game
+<*,*,it,*>: Gioca ad un gioco
+<*,*,*,*>:  Play a game
 exit
 <*,*,it,*>: Indietro
 <*,*,*,*>:  Exit

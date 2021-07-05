@@ -28,15 +28,14 @@ def i1():
     a = im.ask(q)
     while a != "exit":
         if a == "meteo":
-            q = "choose-" + str(random.choice(["sunny", "cloudy", "snow", "stormy", "foggy", "rainy", "windy"]))
-            a = im.ask(q)
-            if a == "back":
-                a = im.ask("choose-activity")
+            while a != "back":
+                q = "choose-" + str(random.choice(["sunny", "cloudy", "snow", "stormy", "foggy", "rainy", "windy"]))
+                a = im.ask(q)
+            a = im.ask("choose-activity")
 
         elif a == "news":
             while a != "back":
                 a = im.ask("choose-topic")
-
                 if a == "politics":
                     im.ask("choose-politics")
                 elif a == "sport":
@@ -50,6 +49,43 @@ def i1():
             
             a = im.ask("choose-activity")
 
+        elif a == "game":
+            try_again = True
+            while try_again:
+                a = im.ask("game-intro")
+                if a == "play":
+                    points = 0
+                    a = im.ask("2-phrases-part1", timeout= 999)
+                    if a == "cat":
+                        points+=1
+                    a = im.ask("2-phrases-part2",  timeout= 999)
+                    if a == "antarctica":
+                        points+=1
+                    a = im.ask("2-maths-part1",  timeout= 999)
+                    if a == "sette":
+                        points+=1
+                    a = im.ask("2-maths-part2",  timeout= 999)
+                    if a == "tre":
+                        points+=1
+                    a = im.ask("2-images-part1",  timeout= 999)
+                    if a == "tulip":
+                        points+=1
+                    a = im.ask("2-images-part2",  timeout= 999)
+                    if a == "amatriciana":
+                        points+=1
+                    
+                    if points>=4:
+                        im.execute("positive")
+                        try_again = False
+                    else:
+                        a = im.ask("negative", timeout=999)
+                        if a == "try":
+                            try_again = True
+
+                        elif a == "back":
+                            try_again = False
+
+            a = im.ask("choose-activity")
 
     im.execute('goodbye')
     
