@@ -1,5 +1,6 @@
 import argparse
 from gestures import Gesture
+from vision import Vision
 import os
 import qi
 import sys
@@ -40,20 +41,22 @@ def handleLastInput(lastInput):
     selected_index = str(random.choice([1,2,3]))
 
     if "classical" in lastInput:
-
         audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doClassical()
+
     
     elif "pop" in lastInput:
         audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doPop()
 
+
     elif "rock" in lastInput:
         audio_player_service.playFile(path_music+"Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doRock()
+
 
     elif "jazz" in lastInput:
         audio_player_service.playFile(path_music + "Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
@@ -62,7 +65,9 @@ def handleLastInput(lastInput):
     
 
     elif "stop" in lastInput:
-        audio_player_service.stop(index)
+        for i in range(1000):
+            audio_player_service.stop(i)
+        
         gesture.doGesture = False
         index += 1
 
@@ -188,8 +193,8 @@ if __name__ == "__main__":
     # Start dialog
     ALDialog.subscribe('pepper_assistant')
 
-    # Gestures
-    gesture = Gesture(ALMotion, doGesture)
-
+    # Gestures and Vision
+    vision = Vision()
+    gesture = Gesture(ALMotion, doGesture, vision, tts_service)
 
     main(session)

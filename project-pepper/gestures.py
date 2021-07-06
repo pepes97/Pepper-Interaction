@@ -1,9 +1,14 @@
 
 
+from vision import Vision
+
+
 class Gesture:
-    def __init__(self, ALMotion, doGesture):
+    def __init__(self, ALMotion, doGesture, vision, tts_service):
         self.ALMotion = ALMotion
         self.doGesture = doGesture
+        self.vision = vision
+        self.tts_service = tts_service
 
 
     def doHello(self):
@@ -62,6 +67,7 @@ class Gesture:
 
         return
 
+
     def doRock(self):
         jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
                       "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
@@ -80,6 +86,8 @@ class Gesture:
         
         isAbsolute = True
         self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+        loops = 0
 
         while self.doGesture:
             
@@ -119,7 +127,10 @@ class Gesture:
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
         
-        return
+            if loops == 5:
+                self.messageVision(self.vision, self.tts_service, "happyImage")
+            loops+=1
+
 
     def doJazz(self):
         jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
@@ -139,6 +150,8 @@ class Gesture:
         
         isAbsolute = True
         self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+        loops = 0
         
         while self.doGesture:
             jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
@@ -176,6 +189,11 @@ class Gesture:
             
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+            if loops == 2:
+                self.messageVision(self.vision, self.tts_service, "happyImage")
+            loops+=1
+
     
     def doClassical(self):
         
@@ -197,6 +215,8 @@ class Gesture:
         
         isAbsolute = True
         self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+        loops = 0
 
         while self.doGesture:
             jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
@@ -236,6 +256,11 @@ class Gesture:
             
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+            if loops == 2:
+                self.messageVision(self.vision, self.tts_service, "happyImage")
+            loops+=1
+
     
     def doPop(self):
         jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll"]
@@ -247,6 +272,8 @@ class Gesture:
         
         isAbsolute = True
         self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+        loops = 0
 
         while self.doGesture:
             jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll", "HipRoll"]
@@ -287,3 +314,18 @@ class Gesture:
             
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+
+            if loops == 2:
+                self.messageVision(self.vision, self.tts_service, "neutralImage")
+            loops+=1
+
+    
+    def messageVision(self, vision, tts_service, imageType):
+        prediction = vision.cnnForEmotionRecognition(imageType)
+        if prediction == "Happy" or prediction == "Surprise":
+            tts_service.say("I see your smile! I'm happy that you like the music!"+" "*5, _async=True)
+        else:
+            tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
+
+        return
+    
