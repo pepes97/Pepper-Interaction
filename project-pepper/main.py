@@ -1,6 +1,7 @@
 import argparse
 from gestures import Gesture
 from vision import Vision
+from touch import Touch
 import os
 import qi
 import sys
@@ -69,7 +70,7 @@ def handleLastInput(lastInput):
             audio_player_service.stop(i)
         
         gesture.doGesture = False
-        index += 1
+        index += 1        
 
 
 def lauch_application(app):
@@ -110,6 +111,7 @@ def main(session):
     tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5, _async=True)
     gesture.doHello()
     time.sleep(2)
+
     
     ALDialog.activateTopic(topic_name)
     ALDialog.subscribe('pepper_assistant')
@@ -125,7 +127,7 @@ def main(session):
     
     while not stop_flag:
         try:
-            value = raw_input("Talk to robot (insert stop to finish the conversation): ")
+            value = raw_input("Talk to robot (insert stop to finish the conversation) or touch him (LHand, RHand, HeadMiddle): ")
 
         except KeyboardInterrupt:
 
@@ -138,14 +140,27 @@ def main(session):
             
             return 0
 
-        if value =="stop":
+        if value == "stop":
             
             stop_flag = True
             # Stop the dialog engine
             ALDialog.unsubscribe('pepper_assistant')
             # Deactivate and unload the main topic
             ALDialog.deactivateTopic(topic_name)
-            ALDialog.unloadTopic(topic_name)           
+            ALDialog.unloadTopic(topic_name)    
+
+        elif value == "LHand":
+            if touch.isTouched("LHand"):
+                tts_service.say("?"+" "*5, _async=True)    
+        
+        elif value == "RHand":
+            if touch.isTouched("RHand"):
+                tts_service.say("?"+" "*5, _async=True)   
+
+        elif value == "HeadMiddle":
+            if touch.isTouched("HeadMiddle"):
+                tts_service.say("?"+" "*5, _async=True)     
+
     return 0
 
 
@@ -196,5 +211,6 @@ if __name__ == "__main__":
     # Gestures and Vision
     vision = Vision()
     gesture = Gesture(ALMotion, doGesture, vision, tts_service)
+    touch = Touch(ALMemory)
 
     main(session)

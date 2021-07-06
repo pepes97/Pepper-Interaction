@@ -54,3 +54,4 @@ proposal: %name What's your name?
 	u1: ({~myname} _*) Nice to meet you $1 ^goto(question)
 
 u:(["hi" "hello"] {_*}) ^goto(name)
+
