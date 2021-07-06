@@ -41,22 +41,22 @@ def handleLastInput(lastInput):
 
     if "classical" in lastInput:
 
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doClassical()
     
     elif "pop" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doPop()
 
     elif "rock" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(path_music+"Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doRock()
 
     elif "jazz" in lastInput:
-        audio_player_service.playFile("/home/sveva/playground/Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(path_music + "Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doJazz()
     
@@ -151,12 +151,14 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=int, default=9559,
                         help="port number, the default value is OK in most cases")
     parser.add_argument("--topic-path", type=str, required=True,
-                        help="absolute path of the dialog topic folder")
-
-
+                        help="absolute path of the dialog topic folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper/topicFiles")
+    parser.add_argument("--music-path", type=str, required=True,
+                        help="short path for music, for instance: /home/sveva/playground/")
 
     args = parser.parse_args()
     session = qi.Session()
+
+    path_music = args.music_path
 
     try:
         session.connect("tcp://{}:{}".format(args.ip, args.port))
