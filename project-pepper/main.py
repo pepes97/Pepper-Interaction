@@ -42,25 +42,25 @@ def handleLastInput(lastInput):
     selected_index = str(random.choice([1,2,3]))
 
     if "classical" in lastInput:
-        audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path +"Pepper-Interaction/project-pepper/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doClassical()
 
     
     elif "pop" in lastInput:
-        audio_player_service.playFile(path_music +"Pepper-Interaction/project-pepper/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path +"/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doPop()
 
 
     elif "rock" in lastInput:
-        audio_player_service.playFile(path_music+"Pepper-Interaction/project-pepper/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doRock()
 
 
     elif "jazz" in lastInput:
-        audio_player_service.playFile(path_music + "Pepper-Interaction/project-pepper/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path + "/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
         gesture.doGesture = True
         gesture.doJazz()
     
@@ -170,15 +170,13 @@ if __name__ == "__main__":
                         help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
     parser.add_argument("--port", type=int, default=9559,
                         help="port number, the default value is OK in most cases")
-    parser.add_argument("--topic-path", type=str, required=True,
-                        help="absolute path of the dialog topic folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper/topicFiles")
-    parser.add_argument("--music-path", type=str, required=True,
-                        help="short path for music, for instance: /home/sveva/playground/")
-
+    parser.add_argument("--project-path", type=str, required=True,
+                        help="path of the project folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper")
+   
     args = parser.parse_args()
     session = qi.Session()
 
-    path_music = args.music_path
+    project_path = args.project_path
 
     try:
         session.connect("tcp://{}:{}".format(args.ip, args.port))
@@ -195,8 +193,8 @@ if __name__ == "__main__":
     # Setup ALDialog
     ALDialog.setLanguage('English')
     
-    topic_path = args.topic_path
-    topic_path += "/main.top"
+    
+    topic_path = project_path + "/topicFiles/main.top"
 
     # Loading the topic given by the user (absolute path is required)
     topf_path = topic_path.decode('utf-8')
