@@ -10,31 +10,43 @@ from motion import *
 from sonar import *
 import random
 import operator
+from database import Database
 
 tablet = "./tablet/"
 scripts = "scripts/"
 
 global session
 global index
+global database
 index = 1
 
 global ALDialog
 global topic_name
 global topic_path
 global doGesture
+global name
+
 
 doGesture = True
-
+name = ""
 
 def handleLastAnswer(lastAnswer):
+    global name
     if "start" in lastAnswer:
         lauch_application(tablet)
     elif "bye" in lastAnswer:
         print(lastAnswer,"1")
-
+    elif "Hi" in lastAnswer:
+        name = lastAnswer.split()[1]
+        if name.lower() not in database.patients:
+            database.addPatient(name.lower())
+            tts_service.say("Nice to meet you! Tell me 'init' to begin the interaction"+" "*5, _async=True)
+        else:
+            tts_service.say("Welcome back ! Tell me 'init' to begin the interaction"+" "*5, _async=True)
 
 def handleLastInput(lastInput):
     global audio_player_service
+    global name
     global doGesture
     global index
 
@@ -68,14 +80,13 @@ def handleLastInput(lastInput):
     elif "stop" in lastInput:
         for i in range(1000):
             audio_player_service.stop(i)
-        
         gesture.doGesture = False
-        index += 1        
+        index += 1    
 
 
 def lauch_application(app):
     with cd(os.path.join(app, scripts)):
-        os.system("python demo.py")
+        os.system("python demo.py --user "+name)
     return
 
 
@@ -118,11 +129,13 @@ def main(session):
 
     # Black magic
     lastAnswer = ALMemory.subscriber("Dialog/LastAnswer")
+    
     lastAnswer.signal.connect(handleLastAnswer)
 
     # Black magic 2
     lastInput = ALMemory.subscriber("Dialog/LastInput")
     lastInput.signal.connect(handleLastInput)
+
 
     
     while not stop_flag:
@@ -210,5 +223,8 @@ if __name__ == "__main__":
     vision = Vision()
     gesture = Gesture(ALMotion, doGesture, vision, tts_service)
     touch = Touch(ALMemory)
+
+    # Database
+    database = Database()
 
     main(session)

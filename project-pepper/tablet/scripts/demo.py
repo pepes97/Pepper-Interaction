@@ -2,19 +2,26 @@ import sys
 import time
 import os
 import random
+import argparse
+
+global user
 
 try:
     sys.path.insert(0, os.getenv('MODIM_HOME')+'/src/GUI')
-
 except Exception as e:
     print("Please set MODIM_HOME environment variable to MODIM folder.")
+    sys.exit(1)
+
+try:
+    sys.path.insert(1, '/home/robot/playground/Pepper-Interaction/project-pepper')
+except Exception as e:
+    print("Please set HOME environment variable to plaground folder.")
     sys.exit(1)
 
 # Set MODIM_IP to connnect to remote MODIM server
 
 import ws_client
 from ws_client import *
-
 
 def i1():
 
@@ -34,6 +41,8 @@ def i1():
             a = im.ask("choose-activity")
 
         elif a == "news":
+            # list_news = database.patients[user]["tablet"]
+            # count, a = max(list_news)
             while a != "back":
                 a = im.ask("choose-topic")
                 if a == "politics":
@@ -95,6 +104,11 @@ def i1():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--user", type=str, required=True, help="user name")
+
+    args = parser.parse_args()
+    user = args.user    
 
     mws = ModimWSClient()
 

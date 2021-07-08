@@ -4,11 +4,12 @@ from vision import Vision
 
 
 class Gesture:
-    def __init__(self, ALMotion, doGesture, vision, tts_service):
+    def __init__(self, ALMotion, doGesture, vision, tts_service, typeImage="happyImage"):
         self.ALMotion = ALMotion
         self.doGesture = doGesture
         self.vision = vision
         self.tts_service = tts_service
+        self.typeImage = typeImage
 
 
     def doHello(self):
@@ -128,7 +129,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
         
             if loops == 5:
-                self.messageVision(self.vision, self.tts_service, "happyImage")
+                self.messageVision(self.vision, self.tts_service,self.typeImage)
             loops+=1
 
 
@@ -191,7 +192,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service, "happyImage")
+                self.messageVision(self.vision, self.tts_service, self.typeImage)
             loops+=1
 
     
@@ -258,7 +259,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service, "happyImage")
+                self.messageVision(self.vision, self.tts_service, self.typeImage)
             loops+=1
 
     
@@ -316,7 +317,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service, "neutralImage")
+                self.messageVision(self.vision, self.tts_service,self.typeImage)
             loops+=1
 
     
