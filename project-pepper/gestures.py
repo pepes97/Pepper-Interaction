@@ -4,12 +4,13 @@ from vision import Vision
 
 
 class Gesture:
-    def __init__(self, ALMotion, doGesture, vision, tts_service, typeImage="happyImage"):
+    def __init__(self, ALMotion, doGesture, vision, tts_service, typeImage = "happyImage", favourite=None):
         self.ALMotion = ALMotion
         self.doGesture = doGesture
         self.vision = vision
         self.tts_service = tts_service
         self.typeImage = typeImage
+        self.favourite = favourite
 
 
     def doHello(self):
@@ -129,7 +130,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
         
             if loops == 5:
-                self.messageVision(self.vision, self.tts_service,self.typeImage)
+                self.messageVision(self.vision, self.tts_service, self.typeImage, "rock")
             loops+=1
 
 
@@ -192,7 +193,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service, self.typeImage)
+                self.messageVision(self.vision, self.tts_service, self.typeImage, "jazz")
             loops+=1
 
     
@@ -259,7 +260,7 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service, self.typeImage)
+                self.messageVision(self.vision, self.tts_service, self.typeImage, "classical")
             loops+=1
 
     
@@ -317,16 +318,21 @@ class Gesture:
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
             if loops == 2:
-                self.messageVision(self.vision, self.tts_service,self.typeImage)
+                self.messageVision(self.vision, self.tts_service, self.typeImage, "pop")
             loops+=1
 
     
-    def messageVision(self, vision, tts_service, imageType):
+    def messageVision(self, vision, tts_service, imageType, current_music):
         prediction = vision.cnnForEmotionRecognition(imageType)
-        if prediction == "Happy" or prediction == "Surprise":
+
+        if (imageType == "sadImage" or imageType == "neutralImage") and current_music == self.favourite:
+            tts_service.say("I see that you no longer like this music that you really liked in the past. Tell me stop if you want to change."+" "*5, _async=True)
+        elif prediction == "Happy" or prediction == "Surprise":
             tts_service.say("I see your smile! I'm happy that you like the music!"+" "*5, _async=True)
-        else:
+        elif prediction == "Neutral" or prediction == "Sad":
             tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
+
+        
 
         return
     
