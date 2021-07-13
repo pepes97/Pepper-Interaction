@@ -41,10 +41,6 @@ def getTypeImage(index):
         counter_tot += database.patients[name]["music"][i][0]
 
     weight_happy = counter_class/counter_tot if counter_tot!=0 else 0
-    print(weight_happy)
-
-    l = [weight_happy/2, (1-weight_happy)/2, (1-weight_happy)/2, weight_happy/2]
-    print(l, sum(l))
 
     if weight_happy != 0:
         return choice(["happyImage", "neutralImage", "sadImage", "surpriseImage"], 1, p=[weight_happy/2, (1-weight_happy)/2, (1-weight_happy)/2, weight_happy/2])[0]
@@ -60,14 +56,12 @@ def handleLastAnswer(lastAnswer):
     audio_player_service = session.service("ALAudioPlayer")
     selected_index = str(random.choice([1,2,3]))
 
-    print(lastAnswer)
-
     if "start" in lastAnswer:
         lauch_application(tablet)
     elif "bye" in lastAnswer:
-        print(lastAnswer,"1")
+        gesture.doHello()
     elif "Hi" in lastAnswer:
-        name = lastAnswer.split()[1]
+        name = lastAnswer.split()[1].lower()
         if name.lower() not in database.patients:
             database.addPatient(name.lower())
             tts_service.say("Nice to meet you!\nDo you want to use the tablet?"+" "*5, _async=True)
@@ -102,9 +96,8 @@ def handleLastAnswer(lastAnswer):
             tts_service.say("Welcome back!\nDo you want to use the tablet?"+" "*5, _async=True)
     
     elif "play Classical music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/classical/classical"+"1"+".wav", _async=True)
         database.patients[name]["music"][0] = (database.patients[name]["music"][0][0]+1, database.patients[name]["music"][0][1])
-
 
         gesture.typeImage = getTypeImage(0)
 
@@ -113,7 +106,7 @@ def handleLastAnswer(lastAnswer):
         gesture.doClassical()
 
     elif "play Pop music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/pop/pop"+"3"+".wav", _async=True)
         database.patients[name]["music"][1] = (database.patients[name]["music"][1][0]+1, database.patients[name]["music"][1][1])
 
 
@@ -124,7 +117,7 @@ def handleLastAnswer(lastAnswer):
         gesture.doPop()
 
     elif "play Rock music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+"1"+".wav", _async=True)
         database.patients[name]["music"][2] = (database.patients[name]["music"][2][0]+1, database.patients[name]["music"][2][1])
 
         gesture.typeImage = getTypeImage(2)
@@ -134,7 +127,7 @@ def handleLastAnswer(lastAnswer):
         gesture.doRock()
 
     elif "play Jazz music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/jazz/jazz"+"3"+".wav", _async=True)
         database.patients[name]["music"][3] = (database.patients[name]["music"][3][0]+1, database.patients[name]["music"][3][1])
 
         gesture.typeImage = getTypeImage(3)
@@ -156,7 +149,7 @@ def handleLastInput(lastInput):
     selected_index = str(random.choice([1,2,3]))
 
     if "classical" in lastInput.lower():
-        audio_player_service.playFile(project_path +"/tablet/sounds/classical/classical"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path +"/tablet/sounds/classical/classical"+"1"+".wav", _async=True)
 
         gesture.typeImage = getTypeImage(0)
         
@@ -169,7 +162,7 @@ def handleLastInput(lastInput):
         gesture.doClassical()
     
     elif "pop" in lastInput.lower():
-        audio_player_service.playFile(project_path +"/tablet/sounds/pop/pop"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path +"/tablet/sounds/pop/pop"+"3"+".wav", _async=True)
 
         gesture.typeImage = getTypeImage(1)
         
@@ -182,7 +175,7 @@ def handleLastInput(lastInput):
         gesture.doPop()
 
     elif "rock" in lastInput.lower():
-        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+"3"+".wav", _async=True)
 
         gesture.typeImage = getTypeImage(2)
         
@@ -194,7 +187,7 @@ def handleLastInput(lastInput):
         gesture.doRock()
 
     elif "jazz" in lastInput.lower():
-        audio_player_service.playFile(project_path + "/tablet/sounds/jazz/jazz"+selected_index+".wav", _async=True)
+        audio_player_service.playFile(project_path + "/tablet/sounds/jazz/jazz"+"3"+".wav", _async=True)
 
         gesture.typeImage = getTypeImage(3)
         
@@ -236,6 +229,15 @@ def main(session):
     #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
     #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
     #motion.forward(min_distance, sonar)
+
+    tts_service.setLanguage("English")
+    tts_service.setVolume(1.0)
+    tts_service.setParameter("speed", 1.0)
+    tts_service.say("Searching for humans..."+" "*5, _async=True)
+    gesture.gestureSearching()
+    time.sleep(2)
+
+
     distances = sonar.get_distances()
     print("Distances: ", distances)
     min_distance, id = motion.selectMinDistance(distances) #id is the person id
@@ -245,9 +247,6 @@ def main(session):
     sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
     print("Robot position", sonar.robot_position)
 
-    tts_service.setLanguage("English")
-    tts_service.setVolume(1.0)
-    tts_service.setParameter("speed", 1.0)
     tts_service.say("Hello! I'm MARIO.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5, _async=True)
     gesture.doHello()
     time.sleep(2)

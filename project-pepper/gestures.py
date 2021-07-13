@@ -36,17 +36,17 @@ class Gesture:
 
         return
     
-    def doNo(self):
-        for i in range(2):
-            jointNames = ["HeadYaw"]
-            angles = [0.25]
-            times  = [1.0]
+    def gestureSearching(self):
+        for i in range(1):
+            jointNames = ["HeadYaw", "HeadPitch"]
+            angles = [0.5, -0.07]
+            times  = [2.0, 2.0]
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
-            jointNames = ["HeadYaw"]
-            angles = [-0.25]
-            times  = [1.0]
+            jointNames = ["HeadYaw", "HeadPitch"]
+            angles = [-0.5, -0.07]
+            times  = [2.0, 2.0]
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
@@ -129,7 +129,7 @@ class Gesture:
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
         
-            if loops == 5:
+            if loops == 4:
                 self.messageVision(self.vision, self.tts_service, self.typeImage, "rock")
             loops+=1
 
@@ -317,7 +317,7 @@ class Gesture:
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
-            if loops == 2:
+            if loops == 1:
                 self.messageVision(self.vision, self.tts_service, self.typeImage, "pop")
             loops+=1
 
@@ -328,7 +328,7 @@ class Gesture:
         if (imageType == "sadImage" or imageType == "neutralImage") and current_music == self.favourite:
             tts_service.say("I see that you no longer like this music that you really liked in the past. Tell me stop if you want to change."+" "*5, _async=True)
         elif prediction == "Happy" or prediction == "Surprise":
-            tts_service.say("I see your smile! I'm happy that you like the music!"+" "*5, _async=True)
+            tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
         elif prediction == "Neutral" or prediction == "Sad":
             tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
 
