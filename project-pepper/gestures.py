@@ -328,7 +328,7 @@ class Gesture:
         if (imageType == "sadImage" or imageType == "neutralImage") and current_music == self.favourite:
             tts_service.say("I see that you no longer like this music that you really liked in the past. Tell me stop if you want to change."+" "*5, _async=True)
         elif prediction == "Happy" or prediction == "Surprise":
-            tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
+            tts_service.say("I see your smile! I'm happy that you like the music!"+" "*5, _async=True)
         elif prediction == "Neutral" or prediction == "Sad":
             tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
 
