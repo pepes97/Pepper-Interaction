@@ -56,3 +56,10 @@ docker exec -it pepperhri tmux
 
 *Tmux split window*
 ```tmux split-window```
+
+# Video
+
+https://user-images.githubusercontent.com/56698309/127374195-143e59be-0189-4b59-afb3-cfac4ccdde6b.mp4
+
+
+
