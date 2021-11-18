@@ -41,9 +41,11 @@ docker exec -it pepperhri tmux
    
    + 4.3 In the open terminal go to `/playground/Pepper-Interaction/project-pepper` and
      ```
-     python main.py
+     python main.py --project-path PROJECT_PATH 
      ```
       with python (not python3)
+      
+      WHERE `PROJECT_PATH` is a string that identifies the absolute path, for instance we it should be something like `/home/user/playground/Pepper-Interaction/project-pepper`. user is obviously different for everyone.
 
 # Commands in tmux
 
